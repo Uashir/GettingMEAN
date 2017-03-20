@@ -1,0 +1,24 @@
+.review {
+    padding-bottom: 5px;
+}
+
+.panel-body.review-container {
+    padding-top: 0px;
+}
+
+.review-header {
+    margin-bottom: 10px;
+}
+
+.reviewAuthow {
+    margin: 0 5px;
+}
+
+.reviewTimestamp {
+    margin-left: 5px;
+    color: #ccc;
+}
+
+.rating {
+    margin-right: 5px;
+}
