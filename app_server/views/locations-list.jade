@@ -1,32 +1,29 @@
 extends layout
+
+include _includes/sharedHTMLfunctions
+
 block content
   #banner.page-header
     .row
       .col-lg-6
-        h1 Перекусончик
-          small &nbsp; Вжууууух! И ты накормлен!
+        h1= pageHeader.title
+        small &nbsp;#{pageHeader.starpline}
 
   .row
     .col-xs-12.col-sm-8
       .row.list-group
-        .cos-xs-12.list-group-item
-          h4
-            a(href="/location") Беляши от Аванеса
-            small &nbsp;
-              span.glyphicon.glyphicon-star
-              span.glyphicon.glyphicon-star
-              span.glyphicon.glyphicon-star
-              span.glyphicon.glyphicon-star-empty
-              span.glyphicon.glyphicon-star-empty
-            span.badge.pull-right.badge-default 100m
-          p.address Московская набережная, строение 42
-          p
-            span.label.label-warningl Национальная кухня
-            | &nbsp;
-            span.label.label-warning Выпечка
-            | &nbsp;
-            span.label.label-warning Еда на дом
-            | &nbsp;
+        each location in locations
+          .cos-xs-12.list-group-item
+            h4
+              a(href="/location")= location.name
+              small &nbsp;
+                +outputRating(location.rating)
+              span.badge.pull-right.badge-default= location.distance
+            p.address= location.address
+            p
+              each facility in location.facilities
+                span.label.label-warningl= facility
+                | &nbsp;
 
     .col-xs-12.col-sm-4
-      p.lead Самый горячо любимый сервис, чтобы вкусно, а самое главное - качественно перекусить в своем городе!
+      p.lead= sidebar

@@ -3,16 +3,16 @@ extends layout
 block content
   .row.page-header
     .col-lg-12
-      h1 Оставить отзыв
+      h1= pageHeader.title
   .row
     .col-xs-12.col-md-6
       form.form-horizontal(action="/location", method="get", role="form")
         .form-group
-          label.col-xs-10.col-sm-2.control-label(for="name") Имя
+          label.col-xs-10.col-sm-2.control-label(for="name")= formHeaders.name
           .col-xs-12.col-sm-10
             input#name.form-control(name="name")
         .form-group
-          label.col-xs-10.col-sm-2.control-label(for="rating") Рейтинг
+          label.col-xs-10.col-sm-2.control-label(for="rating")= formHeaders.rating
           .col-xs-12.col-sm-2
             select#rating.form-control.input-sm(name="rating")
               option 5
@@ -21,8 +21,8 @@ block content
               option 2
               option 1
         .form-group
-          label.col-sm-2.control-label(for="review") Отзыв
+          label.col-sm-2.control-label(for="review")= formHeaders.rewiew
           .col-sm-10
             textarea#review.form-control(name="review", rows="5")
-        button.btn.btn-default.pull-right Добавить мой отзыв
+        button.btn.btn-default.pull-right= formHeaders.buttonText
     .col-xs-12.col-md-4

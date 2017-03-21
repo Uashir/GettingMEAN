@@ -1,84 +1,61 @@
 extends layout
 
+include _includes/sharedHTMLfunctions
+
 block content
   .row.page-header
     .col-lg-12
-      h1 Беляши от Аванеса
+      h1= pageHeader.title
   .row
     .col-xs-12.col-md-9
       .row
         .col-xs-12.col-sm-6
           p.rating
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star
-            span.glyphicon.glyphicon-star-empty
-            span.glyphicon.glyphicon-star-empty
-          p Московская набережная, строение 42
+            +outputRating(location.rating)
+          p= location.address
           .panel.panel-primary
             .panel-heading
-              h2.panel-title Opening hours
+              h2.panel-title= pageHeader.openingHours
             .panel-body
-              p Понедельник - Пятница : 7:00 - 20:00
-              p Суббота : 10:00 - 22:00
-              p Воскресенье : Выходной
+              each time in location.openingTimes
+                p
+                  | #{time.days} -&nbsp
+                  if time.closed
+                    | #{pageHeader.closed}
+                  else
+                    | #{time.opening} - #{time.closing}
           .panel.panel-primary
             .panel-heading
-              h2.panel-title Особенности
+              h2.panel-title= pageHeader.facilities
             .panel-body
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Национальная кухня
-              | &nbsp;
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Выпечка
-              | &nbsp;
-              span.label.label-warning
-                span.glyphicon.glyphicon-ok
-                | &nbsp; Еда на дом
-              | &nbsp;
+              each facility in location.facilities
+                span.label.label-warning
+                  span.glyphicon.glyphicon-ok
+                  | &nbsp; #{facility}
+                | &nbsp;
         .col-xs-12.col-sm-6.location-map
           .panel.panel-primary
             .panel-heading
-              h2.panel-title Местоположение
+              h2.panel-title= pageHeader.location
             .panel-body
               img.img-responsive.img-rounded(src='https://maps.googleapis.com/maps/api/staticmap?center=Moscow,&zoom=13&scale=false&size=400x350&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7CMoscow,+Novokuznetska')
       .row
         .col-xs-12
           .panel.panel-primary.review-panel
             .panel-heading
-              a.btn.btn-default.pull-right(href='/location/review/new') Добавить отзыв
-              h2.panel-title Отзывы посетителей
+              a.btn.btn-default.pull-right(href='/location/review/new')= pageHeader.addReview
+              h2.panel-title= pageHeader.review
             .panel-body.review-container
-              .row
-                .review
-                  .well.well-sm.review-header
-                    span.rating
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                    span.reviewAuthor Никитин Владими
-                    small.reviewTimestamp 16 Июля 2016
-                  .col-xs-12
-                    p Отличное место! Одни из самых вкусных беляшей в Москве.
-              .row
-                .review
-                  .well.well-sm.review-header
-                    span.rating
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star
-                      span.glyphicon.glyphicon-star-empty
-                      span.glyphicon.glyphicon-star-empty
-                      span.glyphicon.glyphicon-star-empty
-                    span.reviewAuthor Мария Иванова
-                    small.reviewTimestamp 22 мая 2016
-                  .col-xs-12
-                    p Вкусная кухня, но официант, который обслуживал меня, совсем не говорил по русски.
+              each review in location.reviews
+                .row
+                  .review
+                    .well.well-sm.review-header
+                      span.rating
+                        +outputRating(review.rating)
+                      span.reviewAuthor #{review.author}
+                      small.reviewTimestamp #{review.timestamp}
+                    .col-xs-12
+                      p !{(review.reviewText).replace(/\n/g, '<br/>')}
     .col-xs-12.col-md-3
-      p.lead
-        | Мы рады найти для вас места для перекуса.
-      p
-        | Если вам понравилось или не понравилось это место. Оставьте свой отзыв, чтобы помочь другим.
+      p.lead #{location.name} #{sidebar.context}
+      p= sidebar.callToAction
